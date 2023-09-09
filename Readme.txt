@@ -58,3 +58,46 @@ lunch
 make recoveryimage
 
 
+####### UPDATE #######
+Ubuntu 20.04 LTS (Working) September 9, 2023
+
+# Update system repositories
+sudo apt update
+
+# Manually Download Repo
+mkdir -p ~/.bin
+PATH="${HOME}/.bin:${PATH}"
+# sudo install curl (if not installed)
+curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
+chmod a+rx ~/.bin/repo
+
+# Install Dependencies
+sudo apt-get install git-core gnupg flex bison build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 libncurses5 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig m4
+
+# Manually install openjdk8
+# Go to https://www.openlogic.com/openjdk-downloads
+# download .deb file (Latest)
+dpkg -i <packagename>.deb
+apt --fix-broken install
+
+# Make desired directory
+mkdir <directoryname>
+cd <directoryname>
+
+# Configure repo
+git config --global user.name Your Name
+git config --global user.email you@example.com 
+
+# Get Twrp Manifest Files
+repo init -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-8.1
+repo sync
+
+# Make device directory
+mkdir device/manufacturer/codename (replace manufacturer and codename base on your device manufaturer and codename)
+
+# Start Building 
+. build/envsetup.sh 
+export LC_ALL=C 
+export ALLOW_MISSING_DEPENDENCIES=true
+lunch (7. cph1909-user build not working) 
+make recoveryimage
